@@ -13,6 +13,9 @@ with open('new_cluster.csv', 'w') as new_file:
             if line[15] == 'Carolina Wren':
                 filename = line[2]
                 row_array = filename.split("_")
+                
+                row_array[2] = row_array[2][:-4]    # remove the .wav extension from the times of the detections
+
                 row_array.append('')
                 row_array.append('')
                 row_array.append(line[15])
