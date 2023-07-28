@@ -9,19 +9,19 @@ with open('new_cluster.csv', 'w') as new_file:
     with open('cluster.csv', 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
 
-    for line in csv_reader:
-        if line[15] == 'Carolina Wren':
-            filename = line[2]
-            row_array = filename.split("_")
-            row_array.append('')
-            row_array.append('')
-            row_array.append(line[15])
-            row_array.append('')
-            row_array.append(line[4])
-            row_array.append('')
-            row_array.append('')
-            row_array.append('')
-            row_array.append('')
-            row_array.append('')
-                
-            csv_writer.writerow(row_array)
+        for line in csv_reader:
+            if line[15] == 'Carolina Wren':
+                filename = line[2]
+                row_array = filename.split("_")
+                row_array.append('')
+                row_array.append('')
+                row_array.append(line[15])
+                row_array.append('')
+                row_array.append(line[4])
+                row_array.append('')
+                row_array.append('')
+                row_array.append('')
+                row_array.append('')
+                row_array.append('')
+                    
+                csv_writer.writerow(row_array)
