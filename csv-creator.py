@@ -31,7 +31,8 @@ class Data:
     def create_data_row(self):
         new_row_array = []
 
-        first_columns = self.filename.split("-")
+        filename = self.filename
+        first_columns = filename.split("_")
 
         new_row_array.append(first_columns[0])
         new_row_array.append(first_columns[1])
@@ -91,3 +92,48 @@ with open('new_cluster.csv', 'w') as new_file:
                 row_array.append('')
                     
                 csv_writer.writerow(row_array)
+
+
+file_name_objects = []
+
+with open('final_cluster.csv', 'w') as final_csv:
+    csv_writer = csv.writer(final_csv)
+    csv_writer.writerow(final_header)
+
+    with open('new_cluster.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        
+        while True:
+            row = next(csv_reader)                              # skip header
+            row = next(csv_reader)                              # look at first data row
+
+            while row[0] in file_name_objects:                  # Checks if filename object has already been created
+                try:
+                    row = next(csv_reader)                      # Tries to look at next CSV line, if it can't breaks out of loop as the file is finished
+                except StopIteration:
+                    break
+
+            if row[0] not in file_name_objects:               
+                data = Data(row[0], float(row[8]), row[6])      # create object based on the contents
+                file_name_objects.append(data.filename)         # add filename to list to skip over in the next iterations
+                data.label_offset()                             # label data sheet based on the time the detection happens
+                
+                try:
+                    row = next(csv_reader)                      # move to the next line if possible
+                except StopIteration:
+                    break
+
+                while row != None:                              # while the row is not empty
+                    if row[0] == data.filename:                 # if the filename of the next row matches the current data object:
+                        data.set_offset(float(row[8]))
+                        data.label_offset()                     # label the detection on the datasheet
+                        try:
+                            row = next(csv_reader)
+                        except StopIteration:
+                            break                               # break out of loop if at the end of the file
+                    
+                    row = None                                  # set row to none
+
+                csv_writer.writerow(data.create_data_row())     # write to the datasheet
+
+                csv_file.seek(0)                                # return to the beginning of file
