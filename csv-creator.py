@@ -58,6 +58,8 @@ class Data:
         return new_row_array
 
 
+species_input = input("Which species/cluster are you searching for?\n")
+
 header = ["Full name", "Unit", "File Name Y/M/D", "File Time", "Initials", "Date", "Species", "No. Ind.", "Second/Offset Detected", "TMTC", "VT", "TBC", "Comment", "Verified"]
 
 final_header = ["Unit", "File Name Y/M/D", "File Time", "Initials", "Date", "Species", "No. Ind.", "0min", "1min", "2min", "3min", "4min", "TMTC", "VT", "TBC", "Comment", "Verified"]
@@ -71,7 +73,7 @@ with open('new_cluster.csv', 'w') as new_file:
         csv_reader = csv.reader(csv_file)
 
         for line in csv_reader:
-            if line[15] == 'Carolina Wren':
+            if line[15] == species_input:
                 filename = line[2]
 
                 row_array = filename.split("_")
